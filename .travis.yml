@@ -1,0 +1,11 @@
+env:
+  matrix:
+  - NAME=test1
+services: docker
+dist: bionic
+language: python
+before_install:
+- openssl aes-256-cbc -K $encrypted_dcdd31726fd6_key -iv $encrypted_dcdd31726fd6_iv -in store.tar.enc -out store.tar -d
+- tar xvf store.tar
+install: docker build -t motutest -f Dockerfile --build-arg TRAVIS_JOB_NUMBER="$TRAVIS_JOB_NUMBER" .
+
