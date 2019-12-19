@@ -79,6 +79,6 @@ RUN python3 -v -c "import motuclient" 2>&1 | grep motuclient
 
 COPY --chown=motutest:motutest cmems_secret.py /home/motutest/
 
-RUN /usr/bin/python3 /usr/local/bin/motuclient -u $(grep CMEMS_USER /home/motutest/src/pyRVPelagia64PE414Sababank_Current/mercator/cmems_secret.py | sed -e "s/'$//" -e "s/^.*'//") -p $(grep CMEMS_PASS /home/motutest/src/pyRVPelagia64PE414Sababank_Current/mercator/cmems_secret.py | sed -e "s/'$//" -e "s/^.*'//") -m http://nrt.cmems-du.eu/motu-web/Motu -s GLOBAL_ANALYSIS_FORECAST_PHY_001_024-TDS -d global-analysis-forecast-phy-001-024-hourly-t-u-v-ssh -x -72 -X -60 -y 10 -Y 20 -t "2019-12-11 00:00:00" -T "2019-12-28 23:59:59" -z 0.493 -Z 0.4942 -v thetao -v zos -v uo -v vo
+RUN /usr/bin/python3 /usr/local/bin/motuclient -u $(grep CMEMS_USER /home/motutest/cmems_secret.py | sed -e "s/'$//" -e "s/^.*'//") -p $(grep CMEMS_PASS /home/motutest/cmems_secret.py | sed -e "s/'$//" -e "s/^.*'//") -m http://nrt.cmems-du.eu/motu-web/Motu -s GLOBAL_ANALYSIS_FORECAST_PHY_001_024-TDS -d global-analysis-forecast-phy-001-024-hourly-t-u-v-ssh -x -72 -X -60 -y 10 -Y 20 -t "2019-12-11 00:00:00" -T "2019-12-28 23:59:59" -z 0.493 -Z 0.4942 -v thetao -v zos -v uo -v vo
 RUN ls -lhtr
 
