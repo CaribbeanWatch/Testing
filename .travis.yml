@@ -1,6 +1,15 @@
 env:
   matrix:
-  - NAME=test1
+  - NAME=test01
+  - NAME=test02
+  - NAME=test03
+  - NAME=test04
+  - NAME=test05
+  - NAME=test06
+  - NAME=test07
+  - NAME=test08
+  - NAME=test09
+  - NAME=test10
 services: docker
 dist: bionic
 language: python
