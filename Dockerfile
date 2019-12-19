@@ -34,6 +34,17 @@ MAINTAINER Adam Candy <adam@candylab.org>
 # Ensure we are asked no questions for installs
 ARG DEBIAN_FRONTEND=noninteractive 
 
+# Install required packages
+RUN apt-get update && apt-get install -y \
+        python3-pip \
+        python3-netcdf4
+
+# Select Python3 as the default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+# Upgrade pip
+RUN pip3 install -i https://pypi.python.org/simple/ --upgrade pip setuptools
+
 # Install motuclient
 RUN python3 -m pip install motuclient==1.8.4
 
