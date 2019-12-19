@@ -8,4 +8,5 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_dcdd31726fd6_key -iv $encrypted_dcdd31726fd6_iv -in store.tar.enc -out store.tar -d
 - tar xvf store.tar
 install: docker build -t motutest -f Dockerfile .
+script: docker run -a stdout -t motutest "if [ -e /home/motutest/data.nc ]; then echo Success; exit 0; else echo Fail; exit 1; fi"
 
