@@ -31,38 +31,11 @@ FROM ubuntu:bionic
 # This DockerFile is looked after by
 MAINTAINER Adam Candy <adam@candylab.org>
 
+# Ensure we are asked no questions for installs
 ARG DEBIAN_FRONTEND=noninteractive 
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
-        git \
-        python3-pip \
-        python3-scipy \
-        python3-numpy \
-        python3-matplotlib \
-				python3-mpltoolkits.basemap \
-        python3-shapely \
-				python3-pil \
-        python3-netcdf4 \
-				ffmpeg \
-				python3-oauth \
-				python3-oauth2client \
-				python3-oauthlib \
-				python3-requests-oauthlib
-
-RUN apt-get upgrade -y openssl
-RUN sed -i.bak -e 's/SECLEVEL=2/SECLEVEL=1/' /usr/lib/ssl/openssl.cnf
-
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-
-# Upgrade pip
-RUN pip3 install -i https://pypi.python.org/simple/ --upgrade pip setuptools
-
+# Install motuclient
 RUN python3 -m pip install motuclient==1.8.4
-RUN pip3 install requests_oauthlib
-RUN pip3 install fiona
-RUN pip3 install tweepy
-RUN pip3 install cloudpickle
 
 # Add a user
 RUN adduser --disabled-password --gecos "" motutest
@@ -71,12 +44,15 @@ RUN adduser --disabled-password --gecos "" motutest
 USER motutest
 WORKDIR /home/motutest
 
-RUN echo "DEBUGASC"
-RUN python --version
-RUN python -m motuclient --version
-RUN python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-RUN python3 -v -c "import motuclient" 2>&1 | grep motuclient
-
+# Copy over files needed for the test
 COPY --chown=motutest:motutest cmems_secret.py /home/motutest/
 COPY --chown=motutest:motutest test.sh /home/motutest/
+
+# Provide some information about the environment
+RUN echo "DEBUGASC"
+RUN python3 --version
+RUN python3 -m motuclient --version
+RUN python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
+RUN python3 -v -c "import motuclient" 2>&1 | grep motuclient
+
 
