@@ -48,6 +48,9 @@ RUN pip3 install -i https://pypi.python.org/simple/ --upgrade pip setuptools
 # Install motuclient
 RUN python3 -m pip install motuclient==1.8.4
 
+# Patch motuclient to give us the reply from the CMEMS API at least
+RUN sed -i -e "s/\(motu_reply=m.read()\)/\1; print('MOTU_REPLY'); print(motu_reply); print(' ')/" /usr/local/lib/python3.6/dist-packages/motu_utils/motu_api.py
+
 # Add a user
 RUN adduser --disabled-password --gecos "" motutest
 
